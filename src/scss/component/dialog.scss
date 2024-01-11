@@ -1,0 +1,69 @@
+dialog {
+  @extend %shadow;
+  @include position(f, left, 50%, top, 50%);
+  &.alert {
+    min-width: 30rem;
+    padding: 1rem;
+    border: 1px solid $primary;
+    @include mobile {
+      width: 100%;
+    }
+  }
+  &.edit {
+    @include mobile {
+      width: 100%;
+    }
+  }
+}
+.alert {
+  z-index: 100;
+  &__title {
+    text-align: center;
+    font-size: 2rem;
+  }
+  &__content {
+    font-size: 1.5rem;
+    padding: 1rem 0;
+  }
+  &__btns {
+    text-align: center;
+  }
+}
+.edit {
+  &::backdrop {
+    background-color: rgba($dark, 0.5);
+    backdrop-filter: blur(0.3rem);
+  }
+  &__title {
+    font-size: 3rem;
+    font-family: $jost;
+    font-weight: 400;
+  }
+  &__date {
+    font-size: 1.3rem;
+    color: $light;
+  }
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 1rem 0;
+    gap: 1rem;
+    label {
+      padding: 0.5rem 0 0;
+      font-size: 1.6rem;
+      color: $skyblue !important;
+      font-weight: 300;
+    }
+    input {
+      width: 35rem;
+      border: 0.1rem solid $border;
+      height: 4rem;
+      padding: 0.5rem;
+      font-size: 1.6rem;
+      box-sizing: border-box;
+      @include mobile {
+        width: 100%;
+      }
+    }
+  }
+}

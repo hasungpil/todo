@@ -1,0 +1,245 @@
+@use "sass:list";
+$colorSet: (
+  1: (
+    "class": "blue",
+    "color": $info,
+  ),
+  2: (
+    "class": "pink",
+    "color": $red,
+  ),
+  3: (
+    "class": "green",
+    "color": $success,
+  ),
+  4: (
+    "class": "black",
+    "color": $gray-dark,
+  ),
+  5: (
+    "class": "purple",
+    "color": $purple,
+  ),
+  6: (
+    "class": "orange",
+    "color": $orange,
+  ),
+);
+
+@mixin listColor($class, $color) {
+  .notes-list {
+    > li.#{$class} {
+      &::after {
+        border-color: $color;
+      }
+      &:hover {
+        background-color: $color;
+        .ico {
+          &::before {
+            color: $white;
+          }
+        }
+      }
+      .ico {
+        &::before {
+          color: $color;
+        }
+      }
+    }
+    &__state {
+      .#{$class} & {
+        &::before {
+          color: $color;
+        }
+      }
+    }
+    &__date {
+      .#{$class} & {
+        &::before {
+          color: $color;
+        }
+      }
+    }
+    .#{$class} {
+      label {
+        color: $color;
+      }
+    }
+  }
+}
+
+.notes {
+  @extend %shadow;
+  margin: 0 0 3rem;
+  .heading {
+    margin-bottom: 3rem;
+  }
+  &-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+    > li {
+      @extend %shadow;
+      display: grid;
+      grid-template-rows: min-content min-content 1fr min-content;
+      position: relative;
+      transition: 0.4s;
+      &::after {
+        content: "";
+        @include position(a, left, 0, bottom, 0);
+        width: 100%;
+        border-bottom: 0.4rem solid;
+        transition: 0.4s;
+      }
+      &:hover {
+        &::after {
+          transform: translateY(-1rem);
+          opacity: 0;
+        }
+        .btn-more::before,
+        .ico::before {
+          color: $white;
+        }
+      }
+      &:has(.done) {
+        .ico {
+          &::before {
+            content: "\F1E2";
+          }
+        }
+      }
+    }
+    .ico {
+      &::before {
+        content: "\F1E8";
+        font-family: $icon;
+        font-size: 3rem;
+      }
+      > div {
+        display: flex;
+        gap: 1rem;
+      }
+    }
+    &__option {
+      @include position(a, right, -4rem, top, 9rem);
+      @extend %shadow;
+      padding: 1rem 0;
+      &.toggle {
+        display: block;
+      }
+      left: inherit;
+      > div {
+        display: grid;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.5rem 2rem;
+        text-align: left;
+        &:hover {
+          background-color: rgba($secondary, 0.1);
+        }
+      }
+    }
+    &__title {
+      font-size: 2.5rem;
+      padding: 1rem 0 0;
+      font-weight: 800;
+      @include mobile {
+        font-size: 2rem;
+      }
+      li:hover & {
+        color: $white;
+      }
+    }
+    &__content {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: $secondary;
+      padding: 1rem 0;
+      li:hover & {
+        color: $white;
+      }
+    }
+    &__state {
+      display: flex;
+      &::before {
+        font-family: $icon;
+        font-size: 2rem;
+        content: "\F846";
+        li:hover & {
+          color: $white;
+        }
+      }
+      &.doing {
+        &::before {
+          transform: rotate(90deg);
+          li:hover & {
+            animation: roket infinite 1.2s;
+          }
+        }
+      }
+    }
+    &__date {
+      display: flex;
+      align-items: center;
+      justify-content: right;
+      gap: 0.4rem;
+      font-size: 1.4rem;
+      li:hover & {
+        color: $white;
+      }
+      &::before {
+        content: "\F1F6";
+        font-family: $icon;
+        li:hover & {
+          color: $white;
+        }
+      }
+    }
+  }
+}
+.checkbox {
+  @include a11y-hidden;
+  + label {
+    cursor: pointer;
+    &::before {
+      content: "\F584";
+      font-family: $icon;
+      font-size: 1.8rem;
+      li:hover & {
+        color: $white;
+      }
+    }
+  }
+  &:checked {
+    + label {
+      &::before {
+        content: "\F26D";
+      }
+    }
+  }
+}
+$count: list.length($colorSet);
+@for $i from 1 through $count {
+  @include listColor(map-get($colorSet, $i, "class"), map-get($colorSet, $i, "color"));
+}
+
+@keyframes roket {
+  0% {
+    transform: rotate(90deg) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(90deg) translateY(-10rem);
+    opacity: 0;
+  }
+}

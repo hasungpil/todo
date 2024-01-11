@@ -1,0 +1,27 @@
+body {
+  @include scroll("r", 1rem, rgba($primary, 0.1), 1rem);
+  padding: 3rem 3rem 3rem 28rem;
+  background-color: $bodybg;
+  @include mobile {
+    padding: 3rem;
+    &.hidden {
+      overflow: hidden;
+      &::before {
+        @include position(f, left, 0, top, 0, 100);
+        content: "";
+        width: 100%;
+        height: 100vh;
+        background-color: rgba($primary, 0.7);
+        backdrop-filter: blur(0.3rem);
+      }
+    }
+  }
+}
+
+%shadow {
+  background-color: $white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-sizing: border-box;
+  box-shadow: 0 0 4rem rgba(0, 0, 0, 0.05);
+}
